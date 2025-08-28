@@ -8,8 +8,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Pompompurin's Productivity Palace",
-  description: "Stay productive with your favorite golden retriever!",
+  title: "RAFA's productivity tool",
+  description: "Little tool to help nerd with their school stuff!",
 };
 
 export default function RootLayout({
@@ -32,6 +32,8 @@ export default function RootLayout({
         `,
           }}
         />
+        {/* Add favicon */}
+        <link rel="icon" type="image/png" href="/favicon.png" />
       </head>
       <body className={`${inter.className} ${inter.variable} font-sans`}>
         {children}
