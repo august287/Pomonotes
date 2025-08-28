@@ -730,7 +730,7 @@ export default function PompompurinApp() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Camera className="w-5 h-5" />
-                      PompomPurin Photobooth
+                      Photobooth
                     </CardTitle>
                   </CardHeader>
                   <CardContent>

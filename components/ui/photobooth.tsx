@@ -65,6 +65,38 @@ export function Photobooth() {
     };
   }, [stream]);
 
+  // Add a CSS class to hide video-player UI elements
+  useEffect(() => {
+    // Add a style tag to override native video controls
+    const style = document.createElement("style");
+    style.textContent = `
+      video::-webkit-media-controls {
+        display: none !important;
+      }
+      video::-webkit-media-controls-enclosure {
+        display: none !important;
+      }
+      video::-webkit-media-controls-panel {
+        display: none !important;
+      }
+      video::-webkit-media-controls-overlay-play-button {
+        display: none !important;
+      }
+      video::-webkit-media-controls-play-button {
+        display: none !important;
+      }
+      .viewfinder-container video {
+        -webkit-appearance: none;
+        appearance: none;
+      }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
   // Handle countdown timer
   useEffect(() => {
     if (!isCountingDown) return;
@@ -781,23 +813,48 @@ export function Photobooth() {
               style={{ borderColor: selectedColor }}
             >
               {/* Add aspect ratio container for video */}
-              <div className="mx-auto w-full max-w-md">
+              <div className="mx-auto w-full max-w-md viewfinder-container">
                 <div className="aspect-[4/3] relative">
+                  {/* Camera viewfinder frame overlay */}
+                  <div className="absolute inset-0 z-10 pointer-events-none">
+                    <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-white opacity-60"></div>
+                    <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-white opacity-60"></div>
+                    <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-white opacity-60"></div>
+                    <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-white opacity-60"></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-24 h-24 border border-white rounded-full opacity-20"></div>
+                    </div>
+                  </div>
+
+                  {/* Interactive overlay to help with iOS activation */}
+                  <div
+                    className="absolute inset-0 z-5 cursor-pointer"
+                    onClick={() => {
+                      if (videoRef.current) {
+                        videoRef.current
+                          .play()
+                          .catch((e) => console.log("Play attempt:", e));
+                      }
+                    }}
+                  ></div>
+
                   <video
                     ref={videoRef}
                     autoPlay
                     playsInline
                     muted={true} /* Always muted for autoplay compatibility */
-                    controls={isIOS()} /* Show controls on iOS for better interaction */
+                    controls={false} /* Hide controls on all devices */
+                    disablePictureInPicture /* Disable picture-in-picture */
                     className="w-full h-full object-cover rounded"
                     style={{
                       display: "block",
-                      transform: isIOS()
-                        ? "scaleX(-1)"
-                        : "none" /* Mirror for selfie view on iOS */,
-                      WebkitTransform: isIOS()
-                        ? "scaleX(-1)"
-                        : "none" /* Safari specific */,
+                      transform:
+                        "scaleX(-1)" /* Mirror for selfie view on all devices */,
+                      WebkitTransform: "scaleX(-1)" /* Safari specific */,
+                      objectFit: "cover",
+                      background: "#000",
+                      pointerEvents:
+                        "none" /* Prevent interaction with the video element */,
                     }}
                     onError={(e) => {
                       console.error("Video error:", e);
@@ -840,7 +897,7 @@ export function Photobooth() {
               <Button
                 onClick={() => capturePhoto()}
                 disabled={!isCameraReady || isCountingDown}
-                className="flex items-center justify-center gap-2 pompompurin-button"
+                className="flex items-center justify-center gap-2 photobooth-button"
                 style={{
                   backgroundColor: buttonColor,
                   color: buttonTextColor,
@@ -909,7 +966,7 @@ export function Photobooth() {
                   <div className="flex flex-col sm:flex-row gap-2 justify-center">
                     <Button
                       onClick={startCamera}
-                      className="pompompurin-button w-full sm:w-auto"
+                      className="photobooth-button w-full sm:w-auto"
                       style={{
                         backgroundColor: buttonColor,
                         color: buttonTextColor,
@@ -943,7 +1000,7 @@ export function Photobooth() {
                         startCamera();
                       }}
                       size="lg"
-                      className="flex items-center justify-center gap-2 mb-4 pompompurin-button w-full sm:w-auto"
+                      className="flex items-center justify-center gap-2 mb-4 photobooth-button w-full sm:w-auto"
                       style={{
                         backgroundColor: buttonColor,
                         color: buttonTextColor,
@@ -958,61 +1015,9 @@ export function Photobooth() {
                     </Button>
 
                     <p className="text-center text-sm mt-2" style={fontStyles}>
-                      Your browser may ask for permission to access your camera.
-                      <br className="hidden sm:block" />
-                      Please click "Allow" when prompted.
+                      Hi you need to allow camera access to use ze photobooth 🤠.
                     </p>
 
-                    {/* Browser-specific information */}
-                    {(isSafari() || isIOS()) && (
-                      <div
-                        className="mt-4 p-3 bg-yellow-50 border border-yellow-300 rounded text-left text-xs"
-                        style={fontStyles}
-                      >
-                        <p className="font-medium">
-                          {isIOS()
-                            ? "Note for iOS users:"
-                            : "Note for Safari users:"}
-                        </p>
-                        {isIOS() ? (
-                          <ul className="list-disc pl-4 mt-1 space-y-1">
-                            <li>iOS has strict camera permissions</li>
-                            <li>
-                              Make sure to use Safari browser (not Chrome or
-                              Firefox on iOS)
-                            </li>
-                            <li>
-                              Enable camera access in Settings → Privacy →
-                              Camera
-                            </li>
-                            <li>
-                              If camera fails, try reloading or rotating your
-                              device
-                            </li>
-                            <li>
-                              Tap the video area if it doesn't start
-                              automatically
-                            </li>
-                            <li>
-                              Photos will open in a new tab for saving (long
-                              press to save)
-                            </li>
-                          </ul>
-                        ) : (
-                          <ul className="list-disc pl-4 mt-1 space-y-1">
-                            <li>Camera access may be restricted in Safari</li>
-                            <li>
-                              You may need to enable camera access in Safari
-                              settings
-                            </li>
-                            <li>
-                              Using Chrome or Firefox may provide a better
-                              experience
-                            </li>
-                          </ul>
-                        )}
-                      </div>
-                    )}
 
                     {/* Show when browser is definitely incompatible */}
                     {browserCompatible === false && (
@@ -1104,7 +1109,7 @@ export function Photobooth() {
           <div className="flex justify-center mt-4">
             <Button
               onClick={downloadPhoto}
-              className="flex items-center justify-center gap-2 pompompurin-button w-full sm:w-auto"
+              className="flex items-center justify-center gap-2 photobooth-button w-full sm:w-auto"
               style={{
                 backgroundColor: buttonColor,
                 color: buttonTextColor,
