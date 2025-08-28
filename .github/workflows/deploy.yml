@@ -35,6 +35,12 @@ jobs:
       
       - name: Build with Next.js
         run: npm run build
+        
+      - name: Copy 404 HTML
+        run: cp out/404.html out/index.html
+        
+      - name: Fix permission
+        run: chmod -c -R +rX "out/"
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2

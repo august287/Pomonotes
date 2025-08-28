@@ -20,6 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* GitHub Pages SPA redirect script */}
+        <script src="/Pomonotes/spa-redirect.js" async></script>
+        
         {/* Add Safari font fix - ensure system fonts are used */}
         <style
           dangerouslySetInnerHTML={{
