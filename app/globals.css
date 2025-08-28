@@ -1,0 +1,333 @@
+@import url("https://fonts.googleapis.com/css2?family=Frankfurter&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Safari font fix - prevent cursive font issues */
+@supports (-webkit-touch-callout: none) {
+  html,
+  body,
+  button,
+  input,
+  textarea,
+  select,
+  div,
+  span,
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif !important;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    /* Add Pompompurin gingham background to entire page */
+    background-color: #fefcac;
+    background-image: linear-gradient(45deg, #f9f4a1 25%, transparent 25%),
+      linear-gradient(-45deg, #f9f4a1 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #f9f4a1 75%),
+      linear-gradient(-45deg, transparent 75%, #f9f4a1 75%);
+    background-size: 30px 30px;
+    background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
+    animation: ginghamFloat 20s ease-in-out infinite;
+  }
+}
+
+/* Custom Pompompurin Gingham Background */
+.pompompurin-gingham {
+  background-color: #fefcac;
+  background-image: linear-gradient(45deg, #f9f4a1 25%, transparent 25%),
+    linear-gradient(-45deg, #f9f4a1 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f9f4a1 75%),
+    linear-gradient(-45deg, transparent 75%, #f9f4a1 75%);
+  background-size: 30px 30px;
+  background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
+  animation: ginghamFloat 20s ease-in-out infinite;
+}
+
+@keyframes ginghamFloat {
+  0%,
+  100% {
+    background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
+  }
+  50% {
+    background-position: 5px 5px, 5px 20px, 20px -10px, -10px 5px;
+  }
+}
+
+/* Custom styles for Pompompurin theme */
+body {
+  font-family: "Frankfurter", cursive !important;
+}
+
+.pompompurin-text {
+  color: #a65c18;
+}
+
+/* Override default button and input styles to match theme */
+button {
+  font-family: "Frankfurter", cursive !important;
+}
+
+input,
+textarea {
+  font-family: "Frankfurter", cursive !important;
+}
+
+/* Add subtle texture to cards */
+.pompompurin-card {
+  background: linear-gradient(135deg, #fff9e6 0%, #fef7d6 100%);
+  box-shadow: 0 4px 6px -1px rgba(166, 92, 24, 0.1),
+    0 2px 4px -1px rgba(166, 92, 24, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Add soft glow to active elements */
+.pompompurin-button {
+  box-shadow: 0 4px 14px 0 rgba(166, 92, 24, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.pompompurin-button:hover {
+  box-shadow: 0 6px 20px 0 rgba(166, 92, 24, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Cute border styles */
+.pompompurin-border {
+  border: 3px solid #a65c18;
+  border-radius: 15px;
+  position: relative;
+}
+
+.pompompurin-border::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  background: linear-gradient(45deg, #f9f4a1, #fefcac, #f9f4a1, #fefcac);
+  border-radius: 18px;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* Focus styles for tab triggers */
+[role="tab"]:focus,
+[data-state]:focus {
+  outline: 2px solid #a65c18 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px rgba(166, 92, 24, 0.2) !important;
+}
+
+/* Ensure tabs are clickable */
+[role="tab"] {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+/* Tab hover state - only when not active */
+[role="tab"]:hover:not([data-state="active"]) {
+  opacity: 0.8;
+  background-color: rgba(166, 92, 24, 0.1) !important;
+}
+
+/* Active tab styling - higher specificity */
+[role="tab"][data-state="active"] {
+  background-color: white !important;
+  color: #a65c18 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Active tab hover - maintain white background */
+[role="tab"][data-state="active"]:hover {
+  background-color: white !important;
+  opacity: 1 !important;
+}
+
+/* Focus styles for cards and interactive elements */
+.pompompurin-card:focus-within {
+  box-shadow: 0 0 0 2px #a65c18, 0 4px 6px -1px rgba(166, 92, 24, 0.2),
+    0 2px 4px -1px rgba(166, 92, 24, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Custom focus ring animation */
+@keyframes pompompurinFocus {
+  0% {
+    box-shadow: 0 0 0 2px rgba(166, 92, 24, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(166, 92, 24, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 2px rgba(166, 92, 24, 0.4);
+  }
+}
+
+/* Apply gentle focus animation to interactive elements */
+input:focus,
+textarea:focus,
+button:focus {
+  animation: pompompurinFocus 2s ease-in-out infinite;
+}
+
+/* Line clamp utilities for text truncation */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Better word breaking for long text */
+.word-break {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Floating header styling */
+.floating-header {
+  transition: all 0.3s ease;
+  background-color: white !important;
+  box-shadow: 0 8px 32px rgba(166, 92, 24, 0.1), 0 4px 16px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 9999 !important;
+  margin-bottom: 0.5rem;
+}
+
+.floating-header:hover {
+  background-color: white !important;
+  box-shadow: 0 12px 40px rgba(166, 92, 24, 0.15),
+    0 6px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Responsive header adjustments */
+@media (max-width: 640px) {
+  .floating-header {
+    margin-bottom: 0.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .floating-header {
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* Ensure header stays above all content */
+.fixed-header {
+  z-index: 9999 !important;
+  position: relative;
+}
+
+/* Smooth Pompompurin Active Animation */
+.pomodoro-active-image {
+  animation: bounce 2s infinite ease-in-out;
+  box-shadow: 0 4px 12px rgba(166, 92, 24, 0.4);
+  border: 2px solid #a65c18;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+/* Add pulsating effect to indicate activity */
+.pomodoro-active-image {
+  animation: bounce 2s infinite ease-in-out, pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 5px rgba(166, 92, 24, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(166, 92, 24, 0.8),
+      0 0 30px rgba(254, 252, 172, 0.6);
+  }
+}
